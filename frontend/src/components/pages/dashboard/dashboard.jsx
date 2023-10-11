@@ -32,6 +32,24 @@ const Dashboard = () => {
     },
   ]);
 
+  async function fetchReadAll()
+  {
+      try {
+          let methodType = "GET"
+          let requestUrl = 'http://127.0.0.1:8000/visits/?format=json';
+          let requestHeaders = {"Content-Type": "application/json"};
+          let requestOptions = {method: methodType, headers: requestHeaders};
+
+          const response = await fetch(requestUrl, requestOptions);
+          const jsonData = await response.json();
+
+          return jsonData
+      }
+      catch (error) {
+          throw error;
+      }
+  }
+
   const getRemainingTime = (user) => {
     const remainingSeconds = ((user.visitLength * 1000 - (Date.now() - user.checkedInAt)) / 1000)
     if (remainingSeconds > 0) {
@@ -74,6 +92,10 @@ const Dashboard = () => {
     }, 1000);
     return () => clearInterval(intervalId);
   }, [users]);
+
+  useEffect(() => {
+    console.log(fetchReadAll())
+  }, []);
 
   return (
     <>
