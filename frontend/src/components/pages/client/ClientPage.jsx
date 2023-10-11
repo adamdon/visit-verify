@@ -55,7 +55,7 @@ export default function ClientPage() {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // small sleep for ux drama
-      // const returnedItem = await fetchCheckin();
+      // const returnedItem = await fetchCheckout();
       toast.success('checked-In');
       // console.info("create - returnedItem: returnedItem");
     }
@@ -70,25 +70,21 @@ export default function ClientPage() {
   }
 
 
-  async function fetchCheckin(newRef, newText)
+  async function fetchCheckin()
   {
     try {
-      let newItem = {
-        "ref": newRef,
-        "name": newText
-      }
 
       const currentTime= new Date()
 
       const visit = {
         "username": username,
-          "checkInTime": currentTime,
-          "checkOutTime": currentTime + (duration * 60),
-          "ExpectedDuration": duration,
-          "GPS_Location": "1..34354,,-2.1344"
+        "checkInTime": currentTime,
+        "checkOutTime": currentTime + (duration * 60),
+        "ExpectedDuration": duration,
+        "GPS_Location": "1..34354,,-2.1344"
       }
 
-      let requestBody = JSON.stringify(newItem);
+      let requestBody = JSON.stringify(visit);
       let methodType = "POST"
       let requestUrl = data.backendUrl + "/pages/visits";
       let requestHeaders = {"Content-Type": "application/json"};
@@ -104,6 +100,36 @@ export default function ClientPage() {
     }
   }
 
+
+  async function fetchCheckout(newRef, newText)
+  {
+    try {
+
+      const currentTime= new Date()
+
+      const visit = {
+        "username": username,
+        "checkInTime": null,
+        "checkOutTime": currentTime,
+        "ExpectedDuration": null,
+        "GPS_Location": "1..34354,,-2.1344"
+      }
+
+      let requestBody = JSON.stringify(visit);
+      let methodType = "POST"
+      let requestUrl = data.backendUrl + "/pages/visits";
+      let requestHeaders = {"Content-Type": "application/json"};
+      let requestOptions = {method: methodType, headers: requestHeaders, body: requestBody};
+
+      const response = await fetch(requestUrl, requestOptions);
+      const jsonData = await response.json();
+
+      return jsonData
+    }
+    catch (error) {
+      throw error;
+    }
+  }
 
   return (
     <>
