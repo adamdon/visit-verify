@@ -170,3 +170,5 @@ dist
  *.env
 
  misc.xml
+ backend/backend.imi
+ frontend/frontend.imi
