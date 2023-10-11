@@ -19,8 +19,8 @@ class CheckIn(models.Model):
 
 class Visits(models.Model):
     username = models.CharField(max_length=60)
-    checkInTime = models.DateTimeField()
-    checkOutTime = models.DateTimeField(null=True, blank=True)
+    checkInTime = models.IntegerField()
+    checkOutTime = models.IntegerField(null=True, blank=True)
     ExpectedDuration = models.IntegerField()
     GPS_Location = models.CharField(max_length=60)
     def __str__(self):
