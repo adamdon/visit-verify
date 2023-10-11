@@ -7,6 +7,8 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+venv
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -167,3 +169,6 @@ dist
  *.sw?
  *.env
 
+ misc.xml
+ backend/backend.imi
+ frontend/frontend.imi
