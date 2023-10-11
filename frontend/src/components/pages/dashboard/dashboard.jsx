@@ -21,7 +21,7 @@ const Dashboard = () => {
       status: "Checked In",
       checkedInAt: new Date(),
       checkInAddress: "789 Oak Street",
-      visitLength: 0,
+      visitLength: 10,
     },
     {
       name: "Sarah Miles",
@@ -70,6 +70,7 @@ const Dashboard = () => {
       }));
 
       setUsers(updatedUsers);
+      
     }, 1000);
     return () => clearInterval(intervalId);
   }, [users]);

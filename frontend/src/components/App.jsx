@@ -7,7 +7,7 @@ import Navbar from "./layout/Navbar.jsx";
 import {Route, Routes} from "react-router-dom";
 import AboutPage from "./pages/about/AboutPage.jsx";
 import ClientPage from "./pages/client/ClientPage.jsx";
-
+import Dashboard from './pages/dashboard/dashboard.jsx';
 
 
 
