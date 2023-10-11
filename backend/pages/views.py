@@ -44,7 +44,7 @@ class VisitsViewSet(viewsets.ModelViewSet):
         except Visits.DoesNotExist:
             return Response({'error':'resource doesnt exist'}, status=status.HTTP_404_NOT_FOUND)
         
-        instance.checkOutTime = datetime.datetime.now()
+        instance.checkOutTime = data["checkOutTime"]
         instance.save()
 
         
