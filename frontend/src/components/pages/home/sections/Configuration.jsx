@@ -20,8 +20,8 @@ export default function Configuration(props) {
                         <div className="flex justify-center">
                             <div className="form-control w-1/2">
                                 <label className="cursor-pointer label content-center">
-                                    <span className="label-text">Pre-populate inputs</span>
-                                    <input type="checkbox" className="toggle toggle-primary" onChange={event => props.setEnableDefault(event.target.checked)} checked={props.enableDefault} />
+                                    {/*<span className="label-text">Pre-populate inputs</span>*/}
+                                    {/*<input type="checkbox" className="toggle toggle-primary" onChange={event => props.setEnableDefault(event.target.checked)} checked={props.enableDefault} />*/}
                                 </label>
                             </div>
                         </div>
