@@ -1,36 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const Dashboard = () => {
-  const [users, setUsers] = useState([
-    {
-      name: "Alice Hamerly",
-      status: "Checked In",
-      checkedInAt: new Date(),
-      checkInAddress: "123 Main Street",
-      visitLength: 3600,
-    },
-    {
-      name: "Bob Canute",
-      status: "Checked In",
-      checkedInAt: new Date(),
-      checkInAddress: "456 Elm Street",
-      visitLength: 1800,
-    },
-    {
-      name: "Daniel Green",
-      status: "Checked In",
-      checkedInAt: new Date(),
-      checkInAddress: "789 Oak Street",
-      visitLength: 10,
-    },
-    {
-      name: "Sarah Miles",
-      status: "Checked Out",
-      checkedInAt: null,
-      checkInAddress: null,
-      visitLength: null,
-    },
-  ]);
+  const [visits, setVisits] = useState([]);
 
   async function fetchReadAll()
   {
@@ -50,8 +21,8 @@ const Dashboard = () => {
       }
   }
 
-  const getRemainingTime = (user) => {
-    const remainingSeconds = ((user.visitLength * 1000 - (Date.now() - user.checkedInAt)) / 1000)
+  const getRemainingTime = (visit) => {
+    const remainingSeconds = ((visit.expectedDuration * 1000 - (Date.now() - visit.checkedInAt)) / 1000)
     if (remainingSeconds > 0) {
         const minutes = Math.floor(remainingSeconds / 60);
         const seconds = Math.floor(remainingSeconds % 60);
@@ -69,8 +40,8 @@ const Dashboard = () => {
     }
   };
 
-  const checkWarningLevel = (user) => {
-    const remainingSeconds = ((user.visitLength * 1000 - (Date.now() - user.checkedInAt)) / 1000)
+  const checkWarningLevel = (visit) => {
+    const remainingSeconds = (visit.ExpectedDuration  - (Date.now() - visit.checkedInAt))
     if (remainingSeconds > 0) {
         return false;
     } 
@@ -80,22 +51,39 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      const updatedUsers = users.map((user) => ({
-        ...user,
-        remainingTime: getRemainingTime(user),
-        warningFlag: checkWarningLevel(user)
-      }));
+    async function fetchData() {
+      try {
+        const jsonData = await fetchReadAll();
+        const formattedVisits = jsonData.map((visit) => ({
+          name: 'firtsname lastname',
+          checkedInAt: new Date(visit.checkInTime), 
+          checkInAddress: visit.GPS_Location,
+          expectedDuration: visit.ExpectedDuration, 
+          contact: 999
+        }));
+        updateVisitObject(formattedVisits)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
 
-      setUsers(updatedUsers);
-      
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [users]);
+  const updateVisitObject = (visitsModify) => {
+    const updatedVisits = visitsModify.map((visit) => ({
+      ...visit,
+      remainingTime: getRemainingTime(visit),
+      warningFlag: checkWarningLevel(visit)
+    }));
+    setVisits(updatedVisits);
+  }
 
   useEffect(() => {
-    console.log(fetchReadAll())
-  }, []);
+    const intervalId = setInterval(() => {
+      updateVisitObject(visits)
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [visits]);
 
   return (
     <>
@@ -105,18 +93,20 @@ const Dashboard = () => {
             <tr>
               <th>Employee Name</th>
               <th>Check In Time</th>
-              <th>Check In Address</th>
+              <th>Check In GPS Location</th>
+              <th>Contact Number</th>
               <th>Remaining Visit Time</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              user.checkedInAt && (
-                <tr key={user.name} className={user.warningFlag ? "bg-red-400" : ""}>
-                  <td>{user.name ?? ""}</td>
-                  <td>{user.checkedInAt?.toLocaleString() ?? ""}</td>
-                  <td>{user.checkInAddress ?? ""}</td>
-                  <td>{user.remainingTime ?? ""}</td>
+            {visits.map((visit) => (
+              visit.checkedInAt && (
+                <tr key={visit.name} className={visit.warningFlag ? "bg-red-400" : ""}>
+                  <td>{visit.name ?? ""}</td>
+                  <td>{visit.checkedInAt.toLocaleString()}</td>
+                  <td>{visit.checkInAddress ?? ""}</td>
+                  <td>{visit.contact}</td>
+                  <td>{visit.remainingTime ?? ""}</td>
                 </tr>
               )
             ))}
