@@ -93,27 +93,29 @@ export default function ClientPage() {
     <>
       <ContentContainer>
 
-        <h1>Client page here</h1>
+        <h1 className="text-5xl font-bold">Client Login Page</h1>
 
-        <button className="btn btn-block btn-outline btn-accent" onClick={checkinOnClick} disabled={data.isDisabled}>
-          <span>Check in</span>
-          {isLoading ? <span className="loading loading-spinner"></span> : <></> }
-        </button>
 
-        <button className="btn btn-block btn-outline btn-accent" onClick={checkOutOnClick} disabled={data.isDisabled} style={{height: 40}}>
-          <span>Check Out</span>
-          {isLoading ? <span className="loading loading-spinner"></span> : <></> }
-        </button>
+        <div>
+          <button className="btn btn-block btn-accent h-40" onClick={checkinOnClick} disabled={data.isDisabled}>
+            <span>Check in</span>
+            {isLoading ? <span className="loading loading-spinner"></span> : <></> }
+          </button>
 
-        {/*<div className="indicator">*/}
-        {/*  <span className="indicator-item badge badge-secondary">In</span>*/}
-        {/*  <button onClick={checkinOnClick} className="btn btn-block" disabled={data.isDisabled}>Check in</button>*/}
-        {/*</div>*/}
+          <select className="select select-bordered w-full">
+            <option disabled>Select Duration</option>
+            <option>2 Hour Duration</option>
+            <option defaultValue>1 Hour Duration</option>
+            <option>30 Minutes</option>
+            <option>15 Minutes</option>
+          </select>
 
-        {/*<div className="indicator">*/}
-        {/*  <span className="indicator-item badge badge-secondary">Out</span>*/}
-        {/*  <button onClick={checkinOnClick} className="btn btn-block" disabled={data.isDisabled}>Check Out</button>*/}
-        {/*</div>*/}
+          <button className="btn btn-block btn-success h-40" onClick={checkOutOnClick} disabled={data.isDisabled}>
+            <span>Check Out</span>
+            {isLoading ? <span className="loading loading-spinner"></span> : <></> }
+          </button>
+        </div>
+
 
 
 

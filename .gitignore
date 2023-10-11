@@ -168,3 +168,5 @@ dist
  *.sln
  *.sw?
  *.env
+
+ misc.xml
