@@ -13,7 +13,7 @@ export default function ClientPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [duration, setDuration] = useState("60");
-  const [username, setUsername] = useState("JaneDoe");
+  const [username, setUsername] = useState("king95");
 
 
 
@@ -32,7 +32,7 @@ export default function ClientPage() {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // small sleep for ux drama
-      // const returnedItem = await fetchCheckin();
+      const returnedItem = await fetchCheckin();
       toast.success('checked-In');
       console.info("create - returnedItem: ");
     }
@@ -76,17 +76,29 @@ export default function ClientPage() {
 
       const currentTime= new Date()
 
-      const visit = {
-        "username": username,
-        "checkInTime": currentTime,
-        "checkOutTime": currentTime + (duration * 60),
-        "ExpectedDuration": duration,
-        "GPS_Location": "1..34354,,-2.1344"
+      // const visit = {
+      //   "username": username,
+      //   "checkInTime": 40,
+      //   "checkOutTime": 600,
+      //   "ExpectedDuration": Number(duration),
+      //   "GPS_Location": "1..34354,,-2.1344"
+      // }
+
+      const visit =     {
+        "username": "http://127.0.0.1:8000/users/king95/",
+        "checkInTime": 5,
+        "checkOutTime": 60,
+        "ExpectedDuration": 60,
+        "GPS_Location": "testestest"
       }
 
+
       let requestBody = JSON.stringify(visit);
+
+      console.log(requestBody);
+
       let methodType = "POST"
-      let requestUrl = data.backendUrl + "/pages/visits";
+      let requestUrl = "http://127.0.0.1:8000/visits/";
       let requestHeaders = {"Content-Type": "application/json"};
       let requestOptions = {method: methodType, headers: requestHeaders, body: requestBody};
 
