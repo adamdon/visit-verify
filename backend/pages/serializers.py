@@ -1,12 +1,12 @@
 # serializers.py
 from rest_framework import serializers
 
-from .models import CheckIn, Visits
+from .models import Users, Visits
 
-class CheckInSerializer(serializers.HyperlinkedModelSerializer):
+class UsersSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = CheckIn
-        fields = ('name', 'status')
+        model = Users
+        fields = ('username', 'firstname', 'lastname', 'contact', 'email', 'address')
 
 class VisitsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
