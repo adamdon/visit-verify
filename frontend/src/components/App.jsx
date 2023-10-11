@@ -6,6 +6,7 @@ import HomePage from "./pages/home/HomePage.jsx";
 import Navbar from "./layout/Navbar.jsx";
 import {Route, Routes} from "react-router-dom";
 import AboutPage from "./pages/about/AboutPage.jsx";
+import ClientPage from "./pages/client/ClientPage.jsx";
 
 
 
@@ -48,6 +49,7 @@ export default function App() {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="*" element={<HomePage />} />
+                        <Route path="client" element={<ClientPage />} />
                     </Routes>
 
 

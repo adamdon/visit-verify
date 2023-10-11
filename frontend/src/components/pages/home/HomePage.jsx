@@ -4,6 +4,8 @@ import Read from "./sections/Read.jsx";
 import Configuration from "./sections/Configuration.jsx";
 import Update from "./sections/Update.jsx";
 import Delete from "./sections/Delete.jsx";
+import ContentContainer from "../../layout/ContentContainer.jsx";
+import {Link} from "react-router-dom";
 
 
 
@@ -13,15 +15,26 @@ export default function HomePage() {
 
   return (
     <>
-        <Configuration enableDefault={enableDefault} setEnableDefault={setEnableDefault}></Configuration>
+        <ContentContainer>
+            Test landing page Links:
+            <p>
+                <button className="btn">
+                    <Link to="client">Client</Link>
+                </button>
 
-        <Create enableDefault={enableDefault}></Create>
 
-        <Read></Read>
 
-        <Update enableDefault={enableDefault}></Update>
+            </p>
+        </ContentContainer>
+        {/*<Configuration enableDefault={enableDefault} setEnableDefault={setEnableDefault}></Configuration>*/}
 
-        <Delete enableDefault={enableDefault}></Delete>
+        {/*<Create enableDefault={enableDefault}></Create>*/}
+
+        {/*<Read></Read>*/}
+
+        {/*<Update enableDefault={enableDefault}></Update>*/}
+
+        {/*<Delete enableDefault={enableDefault}></Delete>*/}
     </>
   )
 }
