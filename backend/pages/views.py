@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 import datetime
 
-from .serializers import CheckInSerializer, VisitsSerializer
-from .models import CheckIn, Visits
+from .serializers import UsersSerializer, VisitsSerializer
+from .models import Users, Visits
 
 
 from rest_framework.response import Response
@@ -18,9 +18,9 @@ def home(request):
 # views.py
 
 
-class CheckInViewSet(viewsets.ModelViewSet):
-    queryset = CheckIn.objects.all().order_by('name')
-    serializer_class = CheckInSerializer
+class UsersViewSet(viewsets.ModelViewSet):
+    queryset = Users.objects.all().order_by('username')
+    serializer_class = UsersSerializer
 
 class VisitsViewSet(viewsets.ModelViewSet):
     queryset = Visits.objects.all()
@@ -49,7 +49,7 @@ class VisitsViewSet(viewsets.ModelViewSet):
 
         
 
-        serializer = VisitsSerializer(data=data)
+        serializer = VisitsSerializer(data=data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
