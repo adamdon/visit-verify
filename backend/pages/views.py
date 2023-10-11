@@ -35,17 +35,20 @@ class VisitsViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def put(self, request, username, format=None):
+    def put(self, request, format=None):
+        data = request.data
+
         try:
-            instance = Visits.objects.get(username=username, checkOutTime=None)
-            data = { 'username': instance.username,
-                    'checkInTime' : instance.checkInTime,
-                    'checkOutTime' : datetime.now(),
-                    'ExpectedDuration' : instance.ExpectedDuration,
-                    'GPS_Location': instance.GPS_Location}
+            instance = Visits.objects.get(username=data["username"], checkOutTime=None)
+            print(instance)
         except Visits.DoesNotExist:
-            return Response({'error':'resource doesnt exist'}, sstatus=status.HTTP_404_NOT_FOUND)
+            return Response({'error':'resource doesnt exist'}, status=status.HTTP_404_NOT_FOUND)
         
+        instance.checkOutTime = datetime.datetime.now()
+        instance.save()
+
+        
+
         serializer = VisitsSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
