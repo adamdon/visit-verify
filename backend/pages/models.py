@@ -9,7 +9,7 @@ from django.db import models
 #         return self.name
 
 class Users(models.Model):
-    #username = models.CharField(max_length=60, primary_key=True)
+    # username = models.CharField(max_length=60, primary_key=True)
     username = models.CharField(max_length=60)
     firstname = models.CharField(max_length=60)
     lastname = models.CharField(max_length=60)
@@ -22,7 +22,7 @@ class Users(models.Model):
         db_table = "Users"
 
 class Visits(models.Model):
-    #username = models.ForeignKey(Users, on_delete=models.CASCADE)
+    # username = models.ForeignKey(Users, on_delete=models.CASCADE)
     username = models.CharField(max_length=60)
     checkInTime = models.IntegerField()
     checkOutTime = models.IntegerField(null=True, blank=True)
