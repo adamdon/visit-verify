@@ -13,7 +13,7 @@ export default function ClientPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [duration, setDuration] = useState("60");
-  const [username, setUsername] = useState("janeDoe");
+  // const [username, setUsername] = useState("janeDoe");
   const [checkinTime, setCheckinTime] = useState(0);
 
   const [location, setLocation] = useState(null);
@@ -85,7 +85,7 @@ export default function ClientPage() {
       // }
 
       const visit =     {
-        "username": username,
+        "username": data.username,
         "checkInTime": currentTime,
         "checkOutTime": null,
         // "ExpectedDuration": currentTime + (parseInt(duration) * 60),
@@ -148,7 +148,7 @@ export default function ClientPage() {
       const currentTime= Date.now()
 
       const visit =     {
-        "username": username,
+        "username": data.username,
         "checkOutTime": currentTime,
       }
 

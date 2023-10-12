@@ -28,6 +28,7 @@ export default function App() {
         const initialGlobalData = {
             backendUrl: backendUrl,
             isDisabled: false,
+            username: "JaneDoe",
         }
         setData(initialGlobalData);
 
