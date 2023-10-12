@@ -194,6 +194,7 @@ export default function ClientPage() {
             <option value="60">1 Hour Duration</option>
             <option value="30">30 Minutes</option>
             <option value="15">15 Minutes</option>
+            <option value="1">1 Minute</option>
           </select>
 
           <button className="btn btn-block btn-success h-40" onClick={checkOutOnClick} disabled={data.isDisabled}>
