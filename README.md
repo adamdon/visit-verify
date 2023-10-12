@@ -1,7 +1,3 @@
 # visit-verify
 
-HELLO
-
-Hello
-
-hi there
+Codefest23 hackathon project developed within 24 hours with a Python backend and React frontend
