@@ -87,7 +87,7 @@ export default function ClientPage() {
       const visit =     {
         "username": username,
         "checkInTime": currentTime,
-        "checkOutTime": 0,
+        "checkOutTime": null,
         // "ExpectedDuration": currentTime + (parseInt(duration) * 60),
         "ExpectedDuration": parseInt(duration),
         "GPS_Location": location
@@ -132,7 +132,7 @@ export default function ClientPage() {
     }
     catch (error){
       console.error(error);
-      toast.error(error.message);
+      // toast.error(error.message);
     }
 
     toast.dismiss(toastId)
@@ -149,10 +149,7 @@ export default function ClientPage() {
 
       const visit =     {
         "username": username,
-        "checkInTime": checkinTime,
         "checkOutTime": currentTime,
-        "ExpectedDuration": parseInt(duration),
-        "GPS_Location": String(location),
       }
 
 
