@@ -14,6 +14,8 @@ const Dashboard = () => {
           const response = await fetch(requestUrl, requestOptions);
           const jsonData = await response.json();
 
+          console.log(jsonData)
+
           return jsonData
       }
       catch (error) {
@@ -22,7 +24,7 @@ const Dashboard = () => {
   }
 
   const getRemainingTime = (visit) => {
-    const remainingSeconds = ((visit.expectedDuration * 1000 - (Date.now() - visit.checkedInAt)) / 1000)
+    const remainingSeconds = ((visit.expectedDuration - (Date.now() - visit.checkedInAt)) / 1000)
     if (remainingSeconds > 0) {
         const minutes = Math.floor(remainingSeconds / 60);
         const seconds = Math.floor(remainingSeconds % 60);
@@ -41,7 +43,7 @@ const Dashboard = () => {
   };
 
   const checkWarningLevel = (visit) => {
-    const remainingSeconds = (visit.ExpectedDuration  - (Date.now() - visit.checkedInAt))
+    const remainingSeconds = ((visit.expectedDuration  - (Date.now() - visit.checkedInAt)) / 1000)
     if (remainingSeconds > 0) {
         return false;
     } 
@@ -55,10 +57,10 @@ const Dashboard = () => {
       try {
         const jsonData = await fetchReadAll();
         const formattedVisits = jsonData.map((visit) => ({
-          name: 'firtsname lastname',
-          checkedInAt: new Date(visit.checkInTime), 
+          username: visit.username,
+          checkedInAt: visit.checkInTime * 1000, 
           checkInAddress: visit.GPS_Location,
-          expectedDuration: visit.ExpectedDuration, 
+          expectedDuration: visit.ExpectedDuration * 60 * 1000, 
           contact: 999
         }));
         updateVisitObject(formattedVisits)
@@ -91,7 +93,7 @@ const Dashboard = () => {
         <table className="table">
           <thead>
             <tr>
-              <th>Employee Name</th>
+              <th>Employee Username</th>
               <th>Check In Time</th>
               <th>Check In GPS Location</th>
               <th>Contact Number</th>
@@ -101,9 +103,9 @@ const Dashboard = () => {
           <tbody>
             {visits.map((visit) => (
               visit.checkedInAt && (
-                <tr key={visit.name} className={visit.warningFlag ? "bg-red-400" : ""}>
-                  <td>{visit.name ?? ""}</td>
-                  <td>{visit.checkedInAt.toLocaleString()}</td>
+                <tr key={visit.username} className={visit.warningFlag ? "bg-red-400" : ""}>
+                  <td>{visit.username ?? ""}</td>
+                  <td>{new Date(visit.checkedInAt).toLocaleString()}</td>
                   <td>{visit.checkInAddress ?? ""}</td>
                   <td>{visit.contact}</td>
                   <td>{visit.remainingTime ?? ""}</td>
