@@ -1,41 +1,31 @@
-import {useState} from "react";
-import Create from "./sections/Create.jsx";
-import Read from "./sections/Read.jsx";
-import Configuration from "./sections/Configuration.jsx";
-import Update from "./sections/Update.jsx";
-import Delete from "./sections/Delete.jsx";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import ContentContainer from "../../layout/ContentContainer.jsx";
-import {Link} from "react-router-dom";
-
-
-
 
 export default function HomePage() {
-    const [enableDefault, setEnableDefault] = useState(false);
+  const [username, setUsername] = useState("");
+
+  const handleInputChange = (e) => {
+    setUsername(e.target.value);
+  };
 
   return (
-    <>
-        <ContentContainer>
-            Test landing page Links:
-            <p>
-                <button className="btn">
-                    <Link to="client">Client</Link>
-                </button>
-
-
-
-            </p>
-        </ContentContainer>
-        {/*<Configuration enableDefault={enableDefault} setEnableDefault={setEnableDefault}></Configuration>*/}
-
-        {/*<Create enableDefault={enableDefault}></Create>*/}
-
-        {/*<Read></Read>*/}
-
-        {/*<Update enableDefault={enableDefault}></Update>*/}
-
-        {/*<Delete enableDefault={enableDefault}></Delete>*/}
-    </>
-  )
+    <ContentContainer>
+      <div className="join join-vertical">
+        <input
+          className="input input-bordered join-item"
+          placeholder="Username"
+          value={username}
+          onChange={handleInputChange}
+        />
+        <button className="btn join-item">
+          {username === "admin" ? (
+            <Link to="/dashboard">Login as Admin</Link>
+          ) : (
+            <Link to="/client">Login as User</Link>
+          )}
+        </button>
+      </div>
+    </ContentContainer>
+  );
 }
-

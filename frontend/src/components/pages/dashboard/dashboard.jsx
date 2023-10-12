@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [visits, setVisits] = useState([]);
@@ -13,8 +14,6 @@ const Dashboard = () => {
 
           const response = await fetch(requestUrl, requestOptions);
           const jsonData = await response.json();
-
-          console.log(jsonData)
 
           return jsonData
       }
@@ -58,7 +57,8 @@ const Dashboard = () => {
         const jsonData = await fetchReadAll();
         const formattedVisits = jsonData.map((visit) => ({
           username: visit.username,
-          checkedInAt: visit.checkInTime * 1000, 
+          checkedInAt: visit.checkInTime, 
+          checkedOutAt: visit.checkOutTime,
           checkInAddress: visit.GPS_Location,
           expectedDuration: visit.ExpectedDuration * 60 * 1000, 
           contact: 999
@@ -102,11 +102,15 @@ const Dashboard = () => {
           </thead>
           <tbody>
             {visits.map((visit) => (
-              visit.checkedInAt && (
+              (visit.checkedInAt && !visit.checkedOutAt) && (
                 <tr key={visit.username} className={visit.warningFlag ? "bg-red-400" : ""}>
                   <td>{visit.username ?? ""}</td>
                   <td>{new Date(visit.checkedInAt).toLocaleString()}</td>
-                  <td>{visit.checkInAddress ?? ""}</td>
+                  <td>
+                    <Link to={'https://www.google.com/maps/search/?api=1&query=' + visit.checkInAddress}>
+                    {visit.checkInAddress ?? ""}
+                    </Link>
+                  </td>
                   <td>{visit.contact}</td>
                   <td>{visit.remainingTime ?? ""}</td>
                 </tr>
