@@ -83,6 +83,7 @@ const Dashboard = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       updateVisitObject(visits)
+      updateVisitObject(visits)
     }, 1000);
     return () => clearInterval(intervalId);
   }, [visits]);
@@ -103,7 +104,7 @@ const Dashboard = () => {
           <tbody>
             {visits.map((visit) => (
               (visit.checkedInAt && !visit.checkedOutAt) && (
-                <tr key={visit.username} className={visit.warningFlag ? "bg-red-400" : ""}>
+                <tr key={visit.checkInTime} className={visit.warningFlag ? "bg-red-400" : ""}>
                   <td>{visit.username ?? ""}</td>
                   <td>{new Date(visit.checkedInAt).toLocaleString()}</td>
                   <td>

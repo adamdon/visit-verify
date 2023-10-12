@@ -8,6 +8,7 @@ import {Route, Routes} from "react-router-dom";
 import AboutPage from "./pages/about/AboutPage.jsx";
 import ClientPage from "./pages/client/ClientPage.jsx";
 import Dashboard from './pages/dashboard/dashboard.jsx';
+import HistoryPage from "./pages/history/HistoryPage.jsx";
 
 
 
@@ -52,6 +53,7 @@ export default function App() {
                         <Route path="*" element={<HomePage />} />
                         <Route path="/dashboard" element={<Dashboard/>}/>
                         <Route path="/client" element={<ClientPage />} />
+                        <Route path="/history" element={<HistoryPage/>} />
                     </Routes>
 
 
