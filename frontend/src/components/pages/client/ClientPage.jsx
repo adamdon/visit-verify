@@ -1,6 +1,6 @@
 import ContentContainer from "../../layout/ContentContainer.jsx";
 import {useData} from "../../../utilities/DataContextProvider.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 
 
@@ -10,22 +10,37 @@ export default function ClientPage() {
 
 
   const [data, setData] = useData();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [duration, setDuration] = useState("60");
-  const [username, setUsername] = useState("king95");
+  const [username, setUsername] = useState("janeDoe");
+  const [checkinTime, setCheckinTime] = useState(0);
+
+  const [location, setLocation] = useState(null);
 
 
 
-  // const [ref, setRef] = useState("");
-  // const [text, setText] = useState("");
 
-
+  useEffect(() => {
+    if (navigator.geolocation) {
+      setData({isDisabled: true});
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLocation( `${position.coords.latitude}, ${position.coords.longitude}`);
+            setData({isDisabled: false});
+            setIsLoading(false);
+          },
+          (error) => {
+            console.log(error.message);
+          }
+      );
+    } else {
+      console.log("GPS not supported");
+    }
+  }, []);
 
   async function checkinOnClick()
   {
-    console.log(duration);
-
     setData({isDisabled: true});
     setIsLoading(true);
     const toastId = toast.loading('Checking in...');
@@ -47,34 +62,19 @@ export default function ClientPage() {
   }
 
 
-  async function checkOutOnClick()
-  {
-    setData({isDisabled: true});
-    setIsLoading(true);
-    const toastId = toast.loading('Checking in...');
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // small sleep for ux drama
-      // const returnedItem = await fetchCheckout();
-      toast.success('checked-In');
-      // console.info("create - returnedItem: returnedItem");
-    }
-    catch (error){
-      console.error(error);
-      toast.error(error.message);
-    }
-
-    toast.dismiss(toastId)
-    setIsLoading(false);
-    setData({isDisabled: false});
-  }
 
 
   async function fetchCheckin()
   {
     try {
+      const currentTime= Date.now();
+      // const gps = `${location.coords.longitude}, ${location.coords.latitude}`
 
-      const currentTime= new Date()
+
+      console.log(location)
+
+      setCheckinTime(currentTime);
 
       // const visit = {
       //   "username": username,
@@ -85,11 +85,12 @@ export default function ClientPage() {
       // }
 
       const visit =     {
-        "username": "http://127.0.0.1:8000/users/king95/",
-        "checkInTime": 5,
-        "checkOutTime": 60,
-        "ExpectedDuration": 60,
-        "GPS_Location": "testestest"
+        "username": username,
+        "checkInTime": currentTime,
+        "checkOutTime": 0,
+        // "ExpectedDuration": currentTime + (parseInt(duration) * 60),
+        "ExpectedDuration": parseInt(duration),
+        "GPS_Location": location
       }
 
 
@@ -113,23 +114,54 @@ export default function ClientPage() {
   }
 
 
+
+
+
+
+  async function checkOutOnClick()
+  {
+    setData({isDisabled: true});
+    setIsLoading(true);
+    const toastId = toast.loading('Checking out...');
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // small sleep for ux drama
+      const returnedItem = await fetchCheckout();
+      toast.success('checked-out');
+      console.info("create - returnedItem: returnedItem");
+    }
+    catch (error){
+      console.error(error);
+      toast.error(error.message);
+    }
+
+    toast.dismiss(toastId)
+    setIsLoading(false);
+    setData({isDisabled: false});
+  }
+
+
   async function fetchCheckout(newRef, newText)
   {
     try {
 
-      const currentTime= new Date()
+      const currentTime= Date.now()
 
-      const visit = {
+      const visit =     {
         "username": username,
-        "checkInTime": null,
+        "checkInTime": checkinTime,
         "checkOutTime": currentTime,
-        "ExpectedDuration": null,
-        "GPS_Location": "1..34354,,-2.1344"
+        "ExpectedDuration": parseInt(duration),
+        "GPS_Location": String(location),
       }
 
+
       let requestBody = JSON.stringify(visit);
-      let methodType = "POST"
-      let requestUrl = data.backendUrl + "/pages/visits";
+
+      console.log(requestBody);
+
+      let methodType = "PUT"
+      let requestUrl = "http://127.0.0.1:8000/visits/";
       let requestHeaders = {"Content-Type": "application/json"};
       let requestOptions = {method: methodType, headers: requestHeaders, body: requestBody};
 
@@ -142,6 +174,9 @@ export default function ClientPage() {
       throw error;
     }
   }
+
+
+
 
   return (
     <>
